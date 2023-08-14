@@ -48,16 +48,15 @@ jobs:
         run: pnpm i
       - name: Vite Build
         run: pnpm build
-      - name: Executa o servidor
-        run: |
-          php artisan serve &
-          php artisan migrate
-          php artisan db:seed
       - name: Executa testes com o PHP
         env:
           DB_DATABASE: psr
           DB_PASSWORD: root123
-        run: php artisan test
+        run: |
+          php artisan serve &
+          php artisan migrate
+          php artisan db:seed
+          php artisan test
 
   js-tests:
     runs-on: ubuntu-latest
