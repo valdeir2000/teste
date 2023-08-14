@@ -64,7 +64,6 @@ jobs:
       - uses: cypress-io/github-action@v5
         name: Executa teste E2E
         with:
-          working-directory: client
           record: false
           parallel: false
 
