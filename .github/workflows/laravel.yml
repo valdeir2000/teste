@@ -57,6 +57,11 @@ jobs:
           php artisan migrate
           php artisan db:seed
           php artisan test
+      - uses: cypress-io/github-action@v5
+        name: Executa teste E2E
+        with:
+          record: false
+          parallel: false
 
   js-tests:
     runs-on: ubuntu-latest
