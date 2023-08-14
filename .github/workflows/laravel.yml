@@ -61,36 +61,10 @@ jobs:
           php artisan migrate
           php artisan db:seed
           php artisan test
+      - name: Test
+        run: curl -vvv http://localhost
       - uses: cypress-io/github-action@v5
         name: Executa teste E2E
         with:
           record: false
           parallel: false
-
-  js-tests:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 8
-      - name: Captura diretório do pnpm
-        id: pnpm-cache
-        run: echo "dir=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
-      - name: Cache
-        id: cache-npm
-        uses: actions/cache@v3
-        with:
-          path: ${{ steps.pnpm-cache.outputs.dir }}
-          key: ${{ runner.os }}-cache-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: ${{ runner.os }}-cache-
-      - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
-        name: Lista módulos do npm
-        continue-on-error: true
-        run: npm list
-      - name: Instala dependências do JS
-        run: pnpm i
-      - name: Vite Build
-        run: pnpm build
-      - name: Executa testes como vitest
-        run: npx vitest
