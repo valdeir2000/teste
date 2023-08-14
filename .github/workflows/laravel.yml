@@ -61,11 +61,4 @@ jobs:
           php artisan migrate
           php artisan db:seed
           php artisan test
-      - name: Test
-        run: |
-          curl -vvv http://localhost
-      - uses: cypress-io/github-action@v5
-        name: Executa teste E2E
-        with:
-          record: false
-          parallel: false
+          npx cypress run
