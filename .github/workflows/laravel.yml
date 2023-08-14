@@ -14,9 +14,9 @@ jobs:
         with:
           php-version: '8.2'
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: 'latest'
       - uses: actions/checkout@v3
       - uses: pnpm/action-setup@v2
         with:
