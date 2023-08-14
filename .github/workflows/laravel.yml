@@ -57,13 +57,12 @@ jobs:
           DB_DATABASE: psr
           DB_PASSWORD: root123
         run: |
-          php artisan serve --daemon
+          php artisan serve --host localhost &
           php artisan migrate
           php artisan db:seed
           php artisan test
       - name: Test
         run: |
-          sleep 10
           curl -vvv http://localhost
       - uses: cypress-io/github-action@v5
         name: Executa teste E2E
