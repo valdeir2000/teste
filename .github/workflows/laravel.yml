@@ -57,7 +57,7 @@ jobs:
           DB_DATABASE: psr
           DB_PASSWORD: root123
         run: |
-          php artisan serve &
+          php artisan serve --daemon
           php artisan migrate
           php artisan db:seed
           php artisan test
