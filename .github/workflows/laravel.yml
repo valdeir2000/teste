@@ -51,6 +51,7 @@ jobs:
       - name: Executa o servidor
         run: |
           php artisan serve &
+          php artisan migrate
           php artisan db:seed
       - name: Executa testes com o PHP
         env:
@@ -65,25 +66,17 @@ jobs:
       - uses: pnpm/action-setup@v2
         with:
           version: 8
-      - uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.2'
       - name: Captura diretório do pnpm
         id: pnpm-cache
         run: echo "dir=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
-      - name: Captura diretório do composer
-        id: composer-cache
-        run: echo "dir=$(composer config cache-files-dir)" >> "$GITHUB_OUTPUT"
       - name: Cache
-        id: cache-npm-php
+        id: cache-npm
         uses: actions/cache@v3
         with:
-          path: |
-            ${{ steps.pnpm-cache.outputs.dir }}
-            ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-cache-${{ hashFiles('**/composer.lock') }}-${{ hashFiles('**/package-lock.json') }}
+          path: ${{ steps.pnpm-cache.outputs.dir }}
+          key: ${{ runner.os }}-cache-${{ hashFiles('**/package-lock.json') }}
           restore-keys: ${{ runner.os }}-cache-
-      - if: ${{ steps.cache-npm-php.outputs.cache-hit != 'true' }}
+      - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
         name: Lista módulos do npm
         continue-on-error: true
         run: npm list
