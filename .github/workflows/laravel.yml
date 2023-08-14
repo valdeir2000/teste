@@ -49,7 +49,9 @@ jobs:
       - name: Vite Build
         run: pnpm build
       - name: Executa o servidor
-        run: php artisan serve &
+        run: |
+          php artisan serve &
+          php artisan db:seed
       - name: Executa testes com o PHP
         env:
           DB_DATABASE: psr
