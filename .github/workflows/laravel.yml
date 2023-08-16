@@ -61,5 +61,24 @@ jobs:
           php artisan migrate
           php artisan db:seed
           php artisan test
-      - name: Run Dusk Tests
-        run: npx cypress run
+      - name: Run E2E tests
+        uses: cypress-io/github-action@v2
+        with:
+          build: npx vite build --no-progress
+          start: php artisan serve --port=80 --quiet
+          wait-on: 'http://localhost'
+          quiet: true
+          record: true
+          parallel: false
+      - uses: actions/upload-artifact@v3
+        # add the line below to store screenshots only on failures
+        # if: failure()
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+          if-no-files-found: ignore # 'warn' or 'error' are also available, defaults to `warn`
+      - uses: actions/upload-artifact@v3
+        with:
+          name: cypress-videos
+          path: cypress/videos
+          if-no-files-found: ignore
