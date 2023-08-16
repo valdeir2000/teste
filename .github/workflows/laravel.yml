@@ -61,27 +61,7 @@ jobs:
           php artisan migrate
           php artisan db:seed
           php artisan test
+      - name: Instala cypress
+        run: pnpm add -D cypress --save-dev
       - name: Run E2E tests
-        uses: cypress-io/github-action@v5
-        env:
-          DB_DATABASE: psr
-          DB_PASSWORD: root123
-        with:
-          build: npx vite build
-          start: php artisan serve --no-reload &
-          wait-on: 'http://localhost'
-          quiet: true
-          record: true
-          parallel: false
-      - uses: actions/upload-artifact@v3
-        # add the line below to store screenshots only on failures
-        # if: failure()
-        with:
-          name: cypress-screenshots
-          path: cypress/screenshots
-          if-no-files-found: ignore # 'warn' or 'error' are also available, defaults to `warn`
-      - uses: actions/upload-artifact@v3
-        with:
-          name: cypress-videos
-          path: cypress/videos
-          if-no-files-found: ignore
+        run: npx cypress run
