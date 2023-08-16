@@ -64,7 +64,7 @@ jobs:
       - name: Run E2E tests
         uses: cypress-io/github-action@v5
         with:
-          build: npx vite build --no-progress
+          build: npx vite build
           start: php artisan serve --port=80 --quiet
           wait-on: 'http://localhost'
           quiet: true
