@@ -52,13 +52,30 @@ jobs:
         run: pnpm i
       - name: Vite Build
         run: pnpm build
+      - name: Upgrade Chrome Driver
+        run: php artisan dusk:chrome-driver --detect
+      - name: Start Chrome Driver
+        run: ./vendor/laravel/dusk/bin/chromedriver-linux &
       - name: Executa testes com o PHP
         env:
           DB_DATABASE: psr
           DB_PASSWORD: root123
         run: |
-          php artisan serve --host localhost &
+          php artisan serve --no-reload &
           php artisan migrate
           php artisan db:seed
           php artisan test
-          npx cypress run
+      - name: Run Dusk Tests
+        run: php artisan dusk
+      - name: Upload Screenshots
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: screenshots
+          path: tests/Browser/screenshots
+      - name: Upload Console Logs
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: console
+          path: tests/Browser/console
