@@ -52,10 +52,6 @@ jobs:
         run: pnpm i
       - name: Vite Build
         run: pnpm build
-      - name: Upgrade Chrome Driver
-        run: php artisan dusk:chrome-driver --detect
-      - name: Start Chrome Driver
-        run: ./vendor/laravel/dusk/bin/chromedriver-linux &
       - name: Executa testes com o PHP
         env:
           DB_DATABASE: psr
