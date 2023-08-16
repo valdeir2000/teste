@@ -63,6 +63,9 @@ jobs:
           php artisan test
       - name: Run E2E tests
         uses: cypress-io/github-action@v5
+        env:
+          DB_DATABASE: psr
+          DB_PASSWORD: root123
         with:
           build: npx vite build
           start: php artisan serve --no-reload &
@@ -78,9 +81,6 @@ jobs:
           path: cypress/screenshots
           if-no-files-found: ignore # 'warn' or 'error' are also available, defaults to `warn`
       - uses: actions/upload-artifact@v3
-        env:
-          DB_DATABASE: psr
-          DB_PASSWORD: root123
         with:
           name: cypress-videos
           path: cypress/videos
