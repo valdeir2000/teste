@@ -66,16 +66,4 @@ jobs:
           php artisan db:seed
           php artisan test
       - name: Run Dusk Tests
-        run: php artisan dusk
-      - name: Upload Screenshots
-        if: failure()
-        uses: actions/upload-artifact@v2
-        with:
-          name: screenshots
-          path: tests/Browser/screenshots
-      - name: Upload Console Logs
-        if: failure()
-        uses: actions/upload-artifact@v2
-        with:
-          name: console
-          path: tests/Browser/console
+        run: pnpm cypress
