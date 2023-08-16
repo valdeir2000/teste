@@ -65,7 +65,7 @@ jobs:
         uses: cypress-io/github-action@v5
         with:
           build: npx vite build
-          start: php artisan serve --port=80 --quiet
+          start: php artisan serve --no-reload &
           wait-on: 'http://localhost'
           quiet: true
           record: true
